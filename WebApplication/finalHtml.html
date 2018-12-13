@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+   integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+   crossorigin=""/>
+   
+   <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+   integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+   crossorigin="">
+  
+   </script>
+   <script src="file:///G:/penode2/node-client-app/leaflet-heat.js"></script>
+   
+ 
+<style>
+img.img2 {
+    float: left;
+}
+img.img3 {
+    float: right;
+}
+.heading1{
+    overflow: auto;
+}
+
+.clearfix {
+    overflow: auto;
+    text-align: center;
+	color: blue;
+	text-transform: uppercase;
+	padding: 19px 0px 19px 0px;
+    background-color: lightblue;
+	font-weight: bold;
+}
+#text2{
+text-align: center;
+color: blue;
+font-weight: bold;
+font-size: 22px;
+}
+#text3{
+text-align: center;
+color: blue;
+font-weight: bold;
+font-size: 22px;
+}
+#text5{
+text-align: center;
+color: blue;
+font-weight: bold;
+font-size: 18px;
+top:0px
+}
+#text6{
+text-align: center;
+color: blue;
+font-weight: bold;
+font-size: 22px;
+top:20px
+}
+#track{
+ height: 200px;
+  width: 1333px;
+  background-color: #f3f3f3;
+  float: right;
+}
+#fname{
+color: blue;
+font-weight: bold;
+font-size: 18px;
+}
+#fname1{
+color: blue;
+font-weight: bold;
+font-size: 18px;
+}
+#fname2{
+color: blue;
+font-weight: bold;
+font-size: 18px;
+}
+#fname3{
+color: blue;
+font-weight: bold;
+font-size: 18px;
+}
+#fname4{
+color: blue;
+font-weight: bold;
+font-size: 18px;
+}
+#outstu{
+position:Relative; left:310px; top:7px;
+}
+#counter{
+position:Relative; left:550px; top:0px;
+color: blue;
+font-weight: bold;
+font-size: 15px;
+}
+#locate{
+position:Relative; left:375px; top:7px;
+}
+#track1{
+position:Relative; left:575px; top:7px;
+}
+#stop{
+position:Relative; left:600px; top:7px;
+}
+#heatmap1{
+position:Relative; left:355px; top:0px;
+}
+#leftcolumn {
+  float: left;
+}
+#rightcolumn {
+  height: 550px;
+  width: 821px;
+  background-color: #f3f3f3;
+  float: right;
+  
+}
+#search1 {
+  height: 125px;
+}
+#heatmap {
+  height: 125px;
+}
+#Outlist{
+height: 200px;
+text-align:center;
+}
+#righthead{
+height: 100px;
+}
+#outstu {
+  font-size: 15px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #00BFFF;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 5px #999;
+}
+
+#outstu:hover {background-color: #1E90FF}
+
+#outstu:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  
+}
+#locate,#heatmap1,#track1,#stop {
+  font-size: 15px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: #00BFFF;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 5px #999;
+}
+
+<!-- #locate:hover {background-color: #1E90FF} -->
+
+<!-- \#locate:active { -->
+  <!-- background-color: #3e8e41; -->
+  <!-- box-shadow: 0 5px #666; -->
+  
+<!-- } -->
+table {
+margin-left:auto; 
+    margin-right:auto;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+	overflow-y: scroll;
+	width:100%;
+    <!-- width: 100%; -->
+}
+
+td, th {
+    border: 1px solid #dddddd;
+    text-align: center;
+    padding: 8px;
+	width:18.666%;
+}
+thead {
+display: table;
+    width: 100%;
+    height: 20px;
+	overflow-y: scroll;
+}
+
+tbody {
+    display: block;
+    height:100px;
+    width: 100%;
+    overflow-y: scroll; 
+}
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+
+#mapid { height: 550px;width: 512px }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+</head>
+</head>
+<body>
+<div id="heading">
+<div class="clearfix" style="font-size:3vw">
+<img class="img2" src="file:///G:/penode/pics/iiitb.png" alt="Pineapple" width="170" height="170">
+Locate Students in Campus
+<img class="img3" src="file:///G:/penode/pics/locate.png" alt="Pineapple" width="170" height="170"></div>
+</div>
+<div id="heading1">
+<div id="leftcolumn">
+<div id="mapid"></div>
+<script>
+var mymap = L.map('mapid').setView([12.844067, 77.663268], 18);
+var baseLayer = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{
+    maxZoom: 23,
+    subdomains:['mt0','mt1','mt2','mt3']
+}).addTo(mymap);
+
+
+var imageUrl = 'file:///G:/penode/pics/pesamplepic.png',
+    imageBounds = [[12.845546, 77.662276], [12.843161, 77.664241]];
+L.imageOverlay(imageUrl, imageBounds).addTo(mymap);
+
+
+
+
+$(document).ready(function(){
+    $('#outstu').click(function(){
+        $.get("http://localhost:8093/", function(data, status){
+            alert("Fetching Outside Student List: " + status);
+			var txt = JSON.stringify(data);
+			var respobj=JSON.parse(txt);
+			try {
+			var element1 = document.getElementById("table1");
+			var rowCount = element1.rows.length;
+			if(rowCount>1){
+			element1.removeChild(element1.getElementsByTagName("tbody")[0]); 
+			}
+			}catch(e) {
+				alert(e);
+			}
+			var table = document.createElement('tbody');
+    var polygon = [ [ 12.845423, 77.662578 ], [ 12.845046, 77.662561 ], [ 12.844994, 77.662346], [ 12.844126, 77.662282 ],[12.843979, 77.662679],[12.843571, 77.662550],[12.843132, 77.663451],[12.843697, 77.663644],[12.843760, 77.663333],[12.844147, 77.663419],[12.844100, 77.663725],[12.844116, 77.664165],[12.845372, 77.664192],[12.845409, 77.663178]];
+	 var number=0;
+	for (var i = 1; i <=respobj.length; i++){
+	if(!inside([ respobj[i-1].lat, respobj[i-1].lng ], polygon)){
+	<!-- var marker = L.marker([respobj[i-1].lat, respobj[i-1].lng]).addTo(mymap); -->
+	<!-- marker.bindPopup("<b>IDNumber</b><br>"+respobj[i-1].IDNumber.toString()).openPopup(); -->
+		var tr = document.createElement('tr');   
+
+		var td1 = document.createElement('td');
+		var td2 = document.createElement('td');
+		var td3 = document.createElement('td');
+		var td4 = document.createElement('td');
+		var td5 = document.createElement('td');
+		var td6 = document.createElement('td');
+		var text1 = document.createTextNode(respobj[i-1].IDNumber);
+		var text2 = document.createTextNode(respobj[i-1].Name);
+		var text3 = document.createTextNode(respobj[i-1].Email);
+		var text4 = document.createTextNode(respobj[i-1].ContactNo);
+		var text5 = document.createTextNode(respobj[i-1].RoomNo);
+		var text6 = document.createTextNode(respobj[i-1].time);
+		td1.appendChild(text1);
+		td2.appendChild(text2);
+		td3.appendChild(text3);
+		td4.appendChild(text4);
+		td5.appendChild(text5);
+		td6.appendChild(text6);
+		tr.appendChild(td1);
+		tr.appendChild(td2);
+		tr.appendChild(td3);
+		tr.appendChild(td4);
+		tr.appendChild(td5);
+		tr.appendChild(td6);
+		table.appendChild(tr);
+		number++;
+	}	
+}
+document.getElementById("myText11").innerHTML = number;
+var element = document.getElementById("table1");
+element.appendChild(table);
+        });
+    });
+});
+
+$(document).ready(function(){
+    $('#heatmap').click(function(){
+	var data1 = [];
+	var heat;
+	var latlng = L.latLng(50.5, 30.5);
+        $.get("http://localhost:8093/", function(data, status){
+            alert("Showing Heat Map Status: " + status);
+			var txt = JSON.stringify(data);
+			var respobj=JSON.parse(txt);
+			try {
+			var element1 = document.getElementById("table1");
+			var rowCount = element1.rows.length;
+			if(rowCount>1){
+			element1.removeChild(element1.getElementsByTagName("tbody")[0]); 
+			}
+			}catch(e) {
+				alert(e);
+			}
+			var table = document.createElement('tbody');
+    var polygon = [ [ 12.845423, 77.662578 ], [ 12.845046, 77.662561 ], [ 12.844994, 77.662346], [ 12.844126, 77.662282 ],[12.843979, 77.662679],[12.843571, 77.662550],[12.843132, 77.663451],[12.843697, 77.663644],[12.843760, 77.663333],[12.844147, 77.663419],[12.844100, 77.663725],[12.844116, 77.664165],[12.845372, 77.664192],[12.845409, 77.663178]];
+	for (var i = 1; i <=respobj.length; i++){
+	if(inside([ respobj[i-1].lat, respobj[i-1].lng ], polygon)){
+		data1.push({lat: respobj[i-1].lat, lng: respobj[i-1].lng,alt:0.9});
+	}	
+    }
+    heat=L.heatLayer(data1, {radius: 10,blur:10,maxZoom:11}).addTo(mymap);
+	});
+		
+//var heat = 
+	});
+});
+function inside(point, vs) {
+
+    var x = point[0], y = point[1];
+
+    var inside = false;
+    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
+        var xi = vs[i][0], yi = vs[i][1];
+        var xj = vs[j][0], yj = vs[j][1];
+
+        var intersect = ((yi > y) != (yj > y))
+            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+        if (intersect) inside = !inside;
+    }
+
+    return inside;
+};
+function v(e,f) {
+f.redraw();
+ };
+</script>
+<script type="text/javascript">
+$(document).ready(function() {
+     $('#locate').attr('disabled','disabled');
+     $('#myText').keyup(function() {
+        if($(this).val() != '') {
+           $('#locate').removeAttr('disabled');
+        }
+        else {
+        $('#locate').attr('disabled','disabled');
+        }
+     });
+	 //var marker1;
+	 $('#locate').click(function() {
+    var term = $('#myText').val().toUpperCase();
+	var polygon1 = [ [ 12.845423, 77.662578 ], [ 12.845046, 77.662561 ], [ 12.844994, 77.662346], [ 12.844126, 77.662282 ],[12.843979, 77.662679],[12.843571, 77.662550],[12.843132, 77.663451],[12.843697, 77.663644],[12.843760, 77.663333],[12.844147, 77.663419],[12.844100, 77.663725],[12.844116, 77.664165],[12.845372, 77.664192],[12.845409, 77.663178]];
+   // var x = myFunction12(term, polygon1);
+	myFunction1(term,polygon1);
+  });
+ });
+ 
+ function myFunction1(x,polygon1) {
+   var marker1;
+   setInterval(function(){ $.get("http://localhost:8093/", function(data, status){
+            //alert("Fetching " + status);
+			var txt1 = JSON.stringify(data);
+			var respobj1=JSON.parse(txt1);
+			var counter=0;
+			var insideV=0;
+			for (var i = 0; i <respobj1.length; i++){
+			if(!x.localeCompare(respobj1[i].IDNumber.toString())){
+			if(inside([ respobj1[i].lat, respobj1[i].lng ], polygon1)){
+			 if (marker1) { // check
+              mymap.removeLayer(marker1); // remove
+              }
+	         marker1 = L.marker([respobj1[i].lat, respobj1[i].lng]).addTo(mymap);
+	         marker1.bindPopup("<b>IDNumber</b><br>"+respobj1[i].IDNumber.toString()).openPopup();
+	         counter++;
+			 }
+			 else{
+			 insideV++;
+			 alert(x+" Student Not in Campus"  );
+			 }
+			}
+			}
+			if((counter==0)&&(insideV==0)){
+			alert("No Student with ID Number " + x );
+			}
+			if(!(insideV==0)){
+			alert(x+" Student Not in Campus"   );
+			}
+  });},1000);
+   
+};
+
+
+</script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+     var b1=true;
+	 var b2=true;
+	 var b3=true;
+	 var b4=true;
+     $('#track1').attr('disabled','disabled');
+     $('#ID1').keyup(function() {
+        if(!($(this).val() != '')) {
+           b1=false;
+        }
+     });
+	 $('#ID2').keyup(function() {
+        if(!($(this).val() != '')) {
+           b2=false;
+        }
+     });
+	 $('#ID3').keyup(function() {
+        if(!($(this).val() != '')) {
+           b3=false;
+        }
+     });
+	 $('#ID4').keyup(function() {
+        if(!($(this).val() != '')) {
+           b4=false;
+        }
+     });
+	 if((b1==false)&&(b2==false)&&(b3==false)&&(b4==false)){
+	 $('#track1').attr('disabled','disabled');
+	 }else{
+	 $('#track1').removeAttr('disabled');
+	 }
+	 //var marker1;
+	 $('#track1').click(function() {
+    var term1 = $('#ID1').val().toUpperCase();
+	var term2 = $('#ID2').val().toUpperCase();
+	var term3 = $('#ID3').val().toUpperCase();
+	var term4 = $('#ID4').val().toUpperCase();
+	var polygon1 = [ [ 12.845423, 77.662578 ], [ 12.845046, 77.662561 ], [ 12.844994, 77.662346], [ 12.844126, 77.662282 ],[12.843979, 77.662679],[12.843571, 77.662550],[12.843132, 77.663451],[12.843697, 77.663644],[12.843760, 77.663333],[12.844147, 77.663419],[12.844100, 77.663725],[12.844116, 77.664165],[12.845372, 77.664192],[12.845409, 77.663178]];
+   // var x = myFunction12(term, polygon1);
+	myFunction2(term1,term2,term3,term4,polygon1);
+  });
+ });
+ 
+ function myFunction2(x1,x2,x3,x4,polygon1) {
+   var marker1,marker2,marker3,marker4;
+   setInterval(function(){ $.get("http://localhost:8093/", function(data, status){
+            //alert("Fetching " + status);
+			var txt1 = JSON.stringify(data);
+			var respobj1=JSON.parse(txt1);
+			var counter1=0;
+			var insideV1=0;
+			var counter2=0;
+			var insideV2=0;
+			var counter3=0;
+			var insideV3=0;
+			var counter4=0;
+			var insideV4=0;
+			for (var i = 0; i <respobj1.length; i++){
+			if(!x1.localeCompare(respobj1[i].IDNumber.toString())){
+			if(inside([ respobj1[i].lat, respobj1[i].lng ], polygon1)){
+			 if (marker1) { // check
+              mymap.removeLayer(marker1); // remove
+              }
+	         marker1 = L.marker([respobj1[i].lat, respobj1[i].lng]).addTo(mymap);
+	         marker1.bindPopup("<b>IDNumber</b><br>"+respobj1[i].IDNumber.toString());
+	         counter1++;
+			 }
+			 else{
+			 insideV1++;
+			 alert(x1+" Student Not in Campus"  );
+			 }
+			}
+			}
+			for (var i = 0; i <respobj1.length; i++){
+			if(!x2.localeCompare(respobj1[i].IDNumber.toString())){
+			if(inside([ respobj1[i].lat, respobj1[i].lng ], polygon1)){
+			 if (marker2) { // check
+              mymap.removeLayer(marker2); // remove
+              }
+	         marker2 = L.marker([respobj1[i].lat, respobj1[i].lng]).addTo(mymap);
+	         marker2.bindPopup("<b>IDNumber</b><br>"+respobj1[i].IDNumber.toString());
+	         counter2++;
+			 }
+			 else{
+			 insideV2++;
+			 alert(x2+" Student Not in Campus"  );
+			 }
+			}
+			}
+			for (var i = 0; i <respobj1.length; i++){
+			if(!x3.localeCompare(respobj1[i].IDNumber.toString())){
+			if(inside([ respobj1[i].lat, respobj1[i].lng ], polygon1)){
+			 if (marker3) { // check
+              mymap.removeLayer(marker3); // remove
+              }
+	         marker3 = L.marker([respobj1[i].lat, respobj1[i].lng]).addTo(mymap);
+	         marker3.bindPopup("<b>IDNumber</b><br>"+respobj1[i].IDNumber.toString());
+	         counter3++;
+			 }
+			 else{
+			 insideV3++;
+			 alert(x3+" Student Not in Campus"  );
+			 }
+			}
+			}
+			for (var i = 0; i <respobj1.length; i++){
+			if(!x4.localeCompare(respobj1[i].IDNumber.toString())){
+			if(inside([ respobj1[i].lat, respobj1[i].lng ], polygon1)){
+			 if (marker4) { // check
+              mymap.removeLayer(marker1); // remove
+              }
+	         marker4 = L.marker([respobj1[i].lat, respobj1[i].lng]).addTo(mymap);
+	         marker4.bindPopup("<b>IDNumber</b><br>"+respobj1[i].IDNumber.toString());
+	         counter4++;
+			 }
+			 else{
+			 insideV4++;
+			 alert(x4+" Student Not in Campus"  );
+			 }
+			}
+			}
+			
+			if((counter1==0)&&(insideV1==0)&&(x1!='')){
+			alert("No Student with ID Number " + x1 );
+			}
+			if(!(insideV1==0)){
+			alert(x1+" Student Not in Campus"   );
+			}
+			if((counter2==0)&&(insideV2==0)&&(x2!='')){
+			alert("No Student with ID Number " + x2 );
+			}
+			if(!(insideV2==0)){
+			alert(x2+" Student Not in Campus"   );
+			}
+			if((counter3==0)&&(insideV3==0)&&(x3!='')){
+			alert("No Student with ID Number " + x3 );
+			}
+			if(!(insideV3==0)){
+			alert(x3+" Student Not in Campus"   );
+			}
+			if((counter4==0)&&(insideV4==0)&&(x4!='')){
+			alert("No Student with ID Number " + x4 );
+			}
+			if(!(insideV4==0)){
+			alert(x4+" Student Not in Campus"   );
+			}
+  });},1000);
+   
+};
+
+</script>
+</div>
+<div id="rightcolumn">
+<div id="righthead">
+<p id="text2">To find the list of students who are outside campus click on button below</p>
+<button id="outstu">Students Outside College</button>
+<p id="counter">Number Of Students Outside:
+      <span id="myText11"></span></p>
+</div>
+<div id="Outlist" >
+<table id='table1'>
+<thead>
+  <tr>
+    <th>IDNumber</th>
+    <th>Name</th>
+    <th>Email</th>
+	<th>Contact_No</th>
+	<th>Room_No</th>
+	<th>Out_of_College_Since</th>
+  </tr>
+  </thead>
+ </table>
+ 
+ </div>
+<div id="search1">
+<p id="text3">Locate the Student in the campus by providing IDNumber below</p>
+<form>
+  <label id="fname">ID Number</label>
+  <input type="text" id="myText" name="myText">
+</form>
+<button id='locate' onclick="" disabled='disabled'>Locate</button>
+</div>
+<div id="heatmap">
+<p id="text5">To see the Heat Map click the button below</p>
+<button id='heatmap1' onclick="">Get HeatMap</button>
+</div>
+</div>
+<!-- <script> -->
+ <!-- var mymap = L.map('mapid').setView([12.84469, 77.66323], 18); -->
+   <!-- L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}', { -->
+    <!-- attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>', -->
+    <!-- maxZoom: 18, -->
+    <!-- id: 'mapbox.streets', -->
+    <!-- accessToken: 'pk.eyJ1IjoibXQyMDE3NTE3IiwiYSI6ImNqbXoydWJmMDBybzIzcHBsM3V4anB1NTgifQ.6wHVah2qIx2d92uCvxzQbQ' -->
+<!-- }).addTo(mymap); -->
+<!-- </script> -->
+<div id="track">
+<p id="text6">Enter the List of Id Numbers to be tracked Below</p>
+<form>
+  <label id="fname1">ID Number 1</label>
+  <input type="text" id="ID1" name="ID1">
+  <label id="fname2">ID Number 2</label>
+  <input type="text" id="ID2" name="ID2">
+   <label id="fname3">ID Number 3</label>
+  <input type="text" id="ID3" name="ID3">
+  <label id="fname4">ID Number 4</label>
+  <input type="text" id="ID4" name="ID4">
+</form>
+<button id='track1' onclick="" disabled='disabled'>Track</button>
+<button id='stop' onclick="" disabled='disabled'>Stop</button>
+</div>
+</div>
+
+
+</body>
+</html>
